@@ -8,7 +8,6 @@ using System.Windows.Forms;
 
 namespace TextSpeech
 {
-    //TODO: Figure out how to add this applacation to the startup folder
     //TODO: play selected text  instead of clipboard text 
     [ComVisible(true)]
     public class TextSpeaker : ApplicationContext

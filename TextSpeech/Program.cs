@@ -65,7 +65,7 @@ namespace TextSpeech
             WshShell shell = new WshShell();
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
             shortcut.TargetPath = Application.ExecutablePath;
-            shortcut.IconLocation = @"icon1";
+            shortcut.IconLocation = Application.StartupPath + @"\..\..\icon1.ico" ;//had to hard code relative path to get thi s working
             shortcut.Description = "Description";
             shortcut.Save();
 
