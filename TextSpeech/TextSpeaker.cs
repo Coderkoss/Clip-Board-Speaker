@@ -8,10 +8,12 @@ using System.Windows.Forms;
 
 namespace TextSpeech
 {
-    //TODO: play selected text  instead of clipboard text 
+    //TODO: play selected text instead of clipboard text 
     [ComVisible(true)]
     public class TextSpeaker : ApplicationContext
     {
+        private LowLevelKeyboardListener _listener;
+
         NotifyIcon notifyIcon;
         static SpeechSynthesizer synth;
         const int VOLUME = 5;
@@ -20,7 +22,7 @@ namespace TextSpeech
         SettingsForm customizeForm;
         string clipBoard;
         List<String> voices;
-
+       
         public int Volume {
             get { return synth.Volume / 10; }
             set { synth.Volume = value * 10; }  
@@ -43,8 +45,10 @@ namespace TextSpeech
         {
             
             this.customkey = Keys.F8;
-               
-            
+
+            _listener = new LowLevelKeyboardListener();
+            _listener.OnKeyPressed += _listener_OnKeyPressed;
+            _listener.HookKeyboard();
             Init();
             MenuItem exitMenuItem = new MenuItem("Exit", new EventHandler(Exit));
             MenuItem openMenuItem = new MenuItem("Settings", new EventHandler(OpenSettings));
@@ -56,11 +60,17 @@ namespace TextSpeech
             notifyIcon.ContextMenu.MenuItems.Add(exitMenuItem);
             notifyIcon.Visible = true;
             notifyIcon.Text = "Press F8 for Speech";
-
+            
 
 
         }
-
+        void _listener_OnKeyPressed(object sender, KeyPressedArgs e) 
+        {
+            if (Customkey.ToString() == e.KeyPressed.ToString()) 
+            {
+                SayText();
+            }            
+        }
         private void OpenSettings(object sender, EventArgs e)
         {
             customizeForm = new SettingsForm();
@@ -77,6 +87,7 @@ namespace TextSpeech
         public void SayText()
         {
             clipBoard = "array";
+            
 
             if (Clipboard.ContainsText())
             {
@@ -91,31 +102,11 @@ namespace TextSpeech
             synth.SpeakAsync(clipBoard);
 
         }
-
-        internal void Saytext()
-        {
-            //TODO:Fix redundent Saytext Method
-            clipBoard = "array";
-
-            if (Clipboard.ContainsText())
-            {
-                clipBoard = Clipboard.GetText();
-            }
-            else
-            {
-                clipBoard = "Man what did you do you ain't got no text here.";
-            }
-
-            synth.SpeakAsyncCancelAll();
-            synth.SpeakAsync(clipBoard);
-
-        }
-
         private void Exit(object sender, EventArgs e)
         {
 
             //notifyIcon.Visible = false;
-
+            _listener.UnHookKeyboard();
             Application.Exit();
         }
         private void Init() {
