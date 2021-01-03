@@ -12,6 +12,7 @@ namespace TextSpeech
 {
     public partial class SettingsForm : Form
     {
+        private Keys m_KeyCode;
         public SettingsForm()
         {
             InitializeComponent();
@@ -52,9 +53,13 @@ namespace TextSpeech
         private void CustomPlayTextbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             CustomPlayTextbox.Text = "";
-            Program.speaker.Customkey = (Keys)char.ToUpper(e.KeyChar);          
+            Program.speaker.Customkey = this.m_KeyCode;          
 
         }
-       
+
+        private void CustomPlayTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            this.m_KeyCode = e.KeyCode;
+        }
     }
 }

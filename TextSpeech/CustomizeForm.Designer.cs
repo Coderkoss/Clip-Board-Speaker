@@ -103,6 +103,7 @@
             this.CustomPlayTextbox.Name = "CustomPlayTextbox";
             this.CustomPlayTextbox.Size = new System.Drawing.Size(100, 26);
             this.CustomPlayTextbox.TabIndex = 2;
+            this.CustomPlayTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CustomPlayTextbox_KeyDown);
             this.CustomPlayTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CustomPlayTextbox_KeyPress);
             // 
             // synthVoices

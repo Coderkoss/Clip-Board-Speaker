@@ -24,14 +24,11 @@ namespace TextSpeech
         static void Main()
         {
             
-            //_hookID = SetHook(_proc);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             speaker = new TextSpeaker();
-            //check to see if the app.exe exist in the startup folder
             CreateStartupShortcut();
             Application.Run(speaker);
-            //UnhookWindowsHookEx(_hookID);
             
           
         }

@@ -76,7 +76,6 @@ namespace TextSpeech
             customizeForm = new SettingsForm();
             customizeForm.Visible = true;
         }
-
         private void notifyIcon_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -87,9 +86,11 @@ namespace TextSpeech
         public void SayText()
         {
             clipBoard = "array";
+            //Key press Control + C
             
+            SendKeys.SendWait("^(c)");
 
-            if (Clipboard.ContainsText())
+             if (Clipboard.ContainsText())
             {
                 clipBoard = Clipboard.GetText();
             }
@@ -100,7 +101,7 @@ namespace TextSpeech
             
             synth.SpeakAsyncCancelAll();
             synth.SpeakAsync(clipBoard);
-
+            Clipboard.Clear();
         }
         private void Exit(object sender, EventArgs e)
         {
